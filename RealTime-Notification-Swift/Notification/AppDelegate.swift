@@ -19,19 +19,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate,CLLocationManagerDelegate 
 
         locationManager = CLLocationManager()
         locationManager?.delegate = self
-
-        // request authorization to track the user’s location
-        locationManager?.requestAlwaysAuthorization()
-        
-        var region = CLBeaconRegion(proximityUUID: NSUUID(UUIDString: "23A01AF0-232A-4518-9C0E-323FB773F5EF"), major: 0x8888, minor: 0x8888, identifier: "SensoroTest")
-        
-        region.notifyOnEntry = true
-        region.notifyOnExit = true
-        
-        locationManager?.startMonitoringForRegion(region)
         
         if((UIDevice.currentDevice().systemVersion as NSString).floatValue >= 8.0){
             
+            // request authorization to track the user’s location
+            locationManager?.requestAlwaysAuthorization()
+        
             UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes:(.Alert | .Sound | .Badge), categories: nil))
 
             UIApplication.sharedApplication().registerForRemoteNotifications()
@@ -40,6 +33,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate,CLLocationManagerDelegate 
         
             UIApplication.sharedApplication().registerForRemoteNotificationTypes((.Alert | .Sound | .Badge))
         }
+        
+        var region = CLBeaconRegion(proximityUUID: NSUUID(UUIDString: "23A01AF0-232A-4518-9C0E-323FB773F5EF"), major: 0x8888, minor: 0x8888, identifier: "SensoroTest")
+        
+        region.notifyOnEntry = true
+        region.notifyOnExit = true
+        
+        locationManager?.startMonitoringForRegion(region)
         
         UIApplication.sharedApplication().cancelAllLocalNotifications()
         

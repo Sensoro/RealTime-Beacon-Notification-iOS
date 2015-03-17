@@ -20,18 +20,13 @@
     // Override point for customization after application launch.
     _locationManager = [[CLLocationManager alloc] init];
     _locationManager.delegate = self;
-    // request authorization to track the user’s location
-    [_locationManager requestAlwaysAuthorization];
     
-    CLBeaconRegion *region = [[CLBeaconRegion alloc] initWithProximityUUID:[[NSUUID alloc] initWithUUIDString:@"23A01AF0-232A-4518-9C0E-323FB773F5EF"] major:0x8888 minor:0x8888
-                                                             identifier:@"SensoroTest"];
-    region.notifyOnEntry = YES;
-    region.notifyOnExit = YES;
-    
-    [_locationManager startMonitoringForRegion:region];
     
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
     {
+        // request authorization to track the user’s location
+        [_locationManager requestAlwaysAuthorization];
+
         [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
         [[UIApplication sharedApplication] registerForRemoteNotifications];
     }else{
@@ -40,6 +35,14 @@
          (UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert)];
 #endif//__IPHONE_8
     }
+    
+    
+    CLBeaconRegion *region = [[CLBeaconRegion alloc] initWithProximityUUID:[[NSUUID alloc] initWithUUIDString:@"23A01AF0-232A-4518-9C0E-323FB773F5EF"] major:0x8888 minor:0x8888
+                                                                identifier:@"SensoroTest"];
+    region.notifyOnEntry = YES;
+    region.notifyOnExit = YES;
+    
+    [_locationManager startMonitoringForRegion:region];
     
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
     
